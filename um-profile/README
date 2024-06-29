@@ -1,0 +1,185 @@
+/******************************************************************************
+*
+* um
+* CS 40
+* README
+* Marten Tropp     (mtropp01)
+* Matthew Carey    (mcarey04)
+*
+******************************************************************************/
+
+
+Acknowledgements for help
+
+        Obviously, we talked to each other for this project because that is the
+        point of partner programming.
+
+        We went to office hours many times and received help from the
+        following TAs: Lexi, Randy, Trevor, Sam, Bill, Jian, Nasir, Valerie,
+        Max, Ayda.
+
+        We used numerous C websites. We also got some help from 
+        geeksforgeeks.org and stackoverflow.com. We went over the Hanson data
+        structure textbook many times.
+
+
+Implementation
+
+        We think our programs work as intended in the spec for this homework.
+        Our program runs all of the provided big .um files and also our smaller
+        test cases.
+
+Departure From Design
+        There was no significant departure from our initial design, besides a 
+        small number of helper functions that helped us execute the planned 
+        operations more easily.
+        
+Architecture
+
+        1. line_T    - Represents a single segment of memory to store the words
+                       and access the number of words in a length. This is
+                       used in Segment_T which is the only module aware of it.
+
+        2. Segment_T - Represents a UM's entire segmented memory. Handles 
+                       all operations associated with an UMs segmented memory, 
+                       such as storing and accessing words in it, mapping and 
+                       unmapping segments. This module contains the secret of 
+                       the line_T and uses it as segments. This module is used
+                       by um_T.
+                       
+        3. um_T      - This module represents the operations of an um. It has 
+                       access to its registers, program counter and segmented 
+                       memory by using the Segment_T data structure. This
+                       module does not know about the line_T structure that
+                       Segment
+                       
+        4. execute   - This module is responsible for setting up a given um 
+                       data structure and running it. It also handles the
+                       commands that are provided from a file. It calls the
+                       functions of Um_T and knows about its contents, but
+                       it does not know anything about Segment_T or line_T. It
+                       is used by the run_um module.
+                       
+        5. run_um    - This module is responsible for handling the command line
+                       and files for the um program. It uses the execute module
+                       and the Um_T module to set up an um to run with the 
+                       program given on the command line. 
+
+
+Execution of 50 million instructions
+
+        Our implementation took 10.575 seconds to execute 50 million 
+        instructions. We determined this by running it with midmark.um using 
+        the time command. That took 16.92 seconds, then we divided by the 
+        number of instructions in midmark.um, which is 80 million to get the 
+        time per instruction, then multiplied by 50 million. 
+
+        
+
+Tests (they are not in the order they were made)
+
+        1. halt -         Tests the functionality of the halt operation by 
+                          calling it.
+
+        2. halt-verbose - Tests the functionality of the halt operation by
+                          calling it and adding output statements after it to
+                          ensure the um actually stops after calling halt.
+
+        3. add -          Tests the functionality of the addition operation by
+                          calling it after values have been loaded into
+                          registers and then prints out the sum.
+
+        4. add-output -   Tests the functionality of the addition operation by
+                          calling it after values have been loaded into
+                          registers and then prints out the sum. This one uses
+                          different values than the add test.
+                          
+        5. load-val -     Tests the functionality of the load value operation
+                          by loading values into registers and printing them
+                          out to ensure that the right value was put in the 
+                          right register.
+                          
+        6. input -        Tests the functionality of the input operation by
+                          asking the user for input and expecting the same
+                          output.
+                          
+        7. mult -         Tests the functionality of the multiplication 
+                          operation by calling it after values have been loaded
+                          into registers and then prints out the product.
+                          
+        8. div -          Tests the functionality of the division operation by
+                          calling it after values have been loaded into
+                          registers and then prints out the result.
+                          
+        9. nand -         Tests the functionality of the nand operation. It
+                          first gets input from standard input using the
+                          input operation. Then, it nands the input value
+                          twice and adds 48 to it using the addition operation.
+                          Finally, the result is printed out using output.
+
+        10. tcmov -       Tests the functionality of the conditional move
+                          operation. It loads in values to three registers
+                          that all have non-zero values. Then, it calls the
+                          conditional move operation and outputs the result.
+                          We expect the output to be different than the value
+                          we loaded into the register because the value used in
+                          the conditional is non-zero.
+
+        11. fcmov -       Tests the functionality of the conditional move
+                          operation. It loads in values to three registers
+                          that one of which will contain zero. Then, it calls
+                          the conditional move operation and outputs the 
+                          result. We expect the value to be the same as the one
+                          we loaded into the register because the value used in
+                          the conditional is zero.
+
+        12. seg-load -    Tests the functionality of the segment load operation
+                          by calling it after values have been loaded into 
+                          three registers. We load the value into a register
+                          from segment zero because that is the only segment
+                          mapped initially.
+
+        13. seg-store -   Tests the functionality of the segment store
+                          operation by loading values into registers. Then, we
+                          call segment store and access the value we just 
+                          stored using segment load. Finally, we output the
+                          value that we just accessed, which we expect to be 
+                          the value corresponding to the ASCII value we loaded
+                          in earlier.
+
+        14. map -         Tests the functionality of the map operation by 
+                          by calling map and ensuring that the operation is 
+                          performed successfully. 
+        
+        15. unmap -       Tests the functionality of the unmap operation. 
+                          First, it maps three segments using the map 
+                          operation. Then it unmaps one of them and loads a 
+                          value into a register. After that, it maps two more
+                          registers and loads two values into two different
+                          registers. Then it stores a value from a register in
+                          a segment usign segment store and accesses it using 
+                          segment load. Finally, it outputs the value and
+                          halts. We expect the program to run smoothly to the
+                          end and the value from output to be the same one as
+                          we loaded in. The loading and storing is done in one
+                          of the segments we mapped, not segment zero.
+
+        16. loadp -       Tests the functionality of the load program function.
+                          This is done by loading values in registers, then
+                          mapping a segment. After that, we load that segment
+                          we just mapped into segment zero.
+
+        17. halt-twice -  Tests the functionality of the halt operation by
+                          calling it and adding an additional halt statement 
+                          after the first one is called to ensure that no 
+                          issues with memory arise.
+        
+        18. 500k-instr -  Tests the speed of the um to ensure it can perform 
+                          500k instructions in the alloted time. 
+        
+
+Time spent
+
+        We spent around 15 hours analysing the problems for this assignment.
+        About 5 hours went into making the design document and about 20 hours
+        went into implementing the program after our analysis.

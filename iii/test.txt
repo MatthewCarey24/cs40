@@ -1,0 +1,45 @@
+calling DFS on 0, 0
+col: 0
+row: 0
+adding right neighbor to stack
+adding bottom neighbor to stack
+col: 0
+row: 1
+adding right neighbor to stack
+col: 1
+row: 1
+adding top neighbor to stack
+col: 1
+row: 0
+adding right neighbor to stack
+col: 2
+row: 0
+adding right neighbor to stack
+col: 3
+row: 0
+adding bottom neighbor to stack
+col: 3
+row: 1
+col: 1
+row: 0
+calling DFS on 0, 6
+col: 0
+row: 6
+calling DFS on 2, 6
+col: 2
+row: 6
+adding right neighbor to stack
+col: 3
+row: 6
+adding top neighbor to stack
+col: 3
+row: 5
+P1
+4 7
+0000
+0000
+0010
+0010
+0010
+0100
+0000

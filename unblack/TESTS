@@ -1,0 +1,5 @@
+test1 : tests to make sure that diagonal black edge are not recognized as being 
+        "next to".
+test2: tests that the program works on an array of height 1.
+test3: tests that the program works properly when a black edge is touching more
+       than one black edge, with no black pixels in the middle. 

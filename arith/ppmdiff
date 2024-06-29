@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#include "assert.h"
+#include "a2methods.h"
+#include "a2plain.h"
+#include "a2blocked.h"
+#include "pnm.h"
+#include "math.h"
+
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+
+int main(int argc, char *argv[])
+{
+        FILE *fp1 = NULL;
+        FILE *fp2 = NULL;
+
+        /* Names of both files were provided */
+        if (argc == 3) {
+                fp1 = fopen(argv[1], "r");
+                assert(fp1 != NULL);
+
+                fp2 = fopen(argv[2], "r");
+                assert(fp2 != NULL);
+        } 
+
+        /* One name was provided */
+        else if (argc == 2) {
+                fp1 = fopen(argv[1], "r");
+                assert(fp1 != NULL);
+
+                fp2 = stdin;
+        }
+
+        /* Incorrect number of command line arguments */
+        else {
+                assert(argc == 3);
+        }
+
+        /* default to UArray2 methods */
+        A2Methods_T methods = uarray2_methods_plain;
+        assert(methods);
+
+        /* default to best map */
+        A2Methods_mapfun *map = methods->map_default;
+        assert(map);
+
+        /* Read in data */
+        Pnm_ppm image1 = Pnm_ppmread(fp1, methods);
+        Pnm_ppm image2 = Pnm_ppmread(fp2, methods);
+
+        /* Getting max and min dimension values */
+        unsigned maxWidth = MAX(image1->width, image2->width);
+        unsigned maxHeight = MAX(image1->height, image2->height);
+        unsigned minWidth = MIN(image1->width, image2->width);
+        unsigned minHeight = MIN(image1->height, image2->height);
+
+        /* Get difference of width and height values */
+        unsigned diffWidth = maxWidth - minWidth;
+        unsigned diffHeight = maxHeight - minHeight;
+
+        /* Check that values differ by 1 at most */
+        if ((diffWidth != 0 && diffWidth != 1) ||
+            (diffHeight != 0 && diffHeight != 1)) {
+                fprintf(stderr, "1.0\n");
+        }
+
+        /* Height and width are appropiate */
+        else {
+                float numerator = 0;
+                for (unsigned row = 0; row < minHeight; row++) {
+                        for (unsigned col = 0; col < minWidth; col++) {
+                                Pnm_rgb pix1 = methods->at(image1->pixels,
+                                                           col, row);
+                                Pnm_rgb pix2 = methods->at(image2->pixels,
+                                                           col, row);
+                                
+                                float red = pow((float) pix1->red /255 - (float) pix2->red / 255, 2);
+                                float green = pow((float) pix1->green / 255 - (float) pix2->green / 255, 2);
+                                float blue = pow((float) pix1->blue / 255 - (float) pix2->blue/ 255, 2);
+
+                                numerator += red + blue + green;
+                        }
+                }
+                
+                /* Calculating denominator */
+                float denominator = 3 * minHeight * minWidth;
+
+                /* Printing out the difference */
+                printf("%f\n", sqrt(numerator/denominator));
+        }
+
+        /* Close files */
+        fclose(fp1);
+        fclose(fp2);
+
+        /* Free memory associated with the images */
+        Pnm_ppmfree(&image1);
+        Pnm_ppmfree(&image2);
+
+        EXIT_SUCCESS;
+}

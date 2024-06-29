@@ -1,0 +1,13 @@
+Matthew Carey (mcarey04) and Isaac Lopez (ilopez03)
+
+recieved help from TAs Lexi and Dan
+
+- known errors are that when a correct line is at the last row of a file, it is 
+read in by the decorrupt function but it does not get added to the sequence; 
+(it still will excecute properly, the resulting image will just be missing that
+last line of data.)
+- Additionally, readaline can not handle lines of greater than
+1000 chars. 
+- All other functions seem to be implemented correctly
+
+40 hours

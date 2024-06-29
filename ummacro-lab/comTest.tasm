@@ -1,0 +1,16 @@
+
+
+include com.tasm
+include writechar.tasm
+
+#--------------------------------------------------------------------
+#                            main
+#--------------------------------------------------------------------
+
+temp r7
+loadval r3,65                  # This is the letter A in ASCII
+loadval r5,66
+com r3,r5
+com r3,r3
+writechar r3                   # Output the result of the com
+halt

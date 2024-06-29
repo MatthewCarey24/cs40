@@ -1,0 +1,9 @@
+#! /bin/bash
+
+random-calc40 1000 > random_test.txt
+
+sh compile
+um calc40.um < random_test.txt > random_result1.txt
+/comp/40/bin/calc40 < random_test.txt > random_result2.txt
+
+diff random_result1.txt random_result2.txt

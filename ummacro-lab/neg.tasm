@@ -1,0 +1,12 @@
+#--------------------------------------------------------------------
+#
+#                          Two's-Complement Negation macro
+#
+#
+#--------------------------------------------------------------------
+
+macro neg
+com p2,p2       #not the second parameter
+loadval rt,1
+add p1,p2,rt
+mend

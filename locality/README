@@ -1,0 +1,120 @@
+/******************************************************************************
+*
+* locality
+* CS 40
+* README
+* Marten Tropp     (mtropp01)
+* Matthew Carey    (mcarey04)
+*
+******************************************************************************/
+
+Acknowledgements for help
+
+        Obviously, we talked to each other for this project because that is the
+        point of partner programming.
+Instructor
+| 10/18 at 9:25 pm
+Grading comment:
+:-)
+
+
+        We went to office hours many times and received help from the
+        following TAs: Lexi, Valerie, George, Trevor, Bill, Eric, Andrew, Zane,
+        Dan, and Radny. We might have consulted other TAs at some point too, 
+        but do not remember their names, so we can not give them credit sadly. 
+
+        We went over the Hanson data structure textbook many times and we also
+        looked at the solutions for previos homeworks released on the course
+        website.
+
+
+Implementation
+
+        We think our programs work as intended in the spec for this homework.
+        ppmtrans should be able to rotate a ppm image by 0, 90, 180, and 270 
+        degrees, as well as flip any ppm image horizontally and vertically, as
+        well as transpose one. UArray2b behaves as a blocked 2D array. The 
+        A2Methods suite works correctly to represent the functions of both a 
+        UArray2 and a UArray2b.  
+
+
+Architecture
+
+        A2Methods is a polymorphic suite that allows the usage of both UArray2,
+        which was implemented for the previous homework that is a 2D array, and
+        UArray2b, which was implemented for this homework and is a 2D blocked
+        array to improve caching. A2Methods are used in ppmtrans which is a
+        program that transforms images based on a command by the user. Thanks
+        to the A2Methods suite it uses, the program can be run with either
+        UArray2 or UArray2b data structures using the command line without
+        having to change any of the code. ppmtrans is unaware of the
+        polymorphism of A2Methods and does not know that depending on the
+        command line, a different data structure is used to store and access
+        the data.
+
+
+Part E: Measure and explain improvements in locality
+|--------------------------------------------------------------------------|
+| Rotation | Major | Input Size |  Time(ns)  | Time / Pix | Instruct / Pix |
+|----------|-------|------------|------------|------------|----------------|
+|          | Row   | 8160x6120  |    1514    |   3.03e-5  |     3.03e4     |
+|          |-------|------------|------------|------------|----------------|
+|     0    | Col   | 8160x6120  |    1464    |   2.93e-5  |     2.93e4     |
+|          |-------|------------|------------|------------|----------------|
+|          | Block | 8160x6120  |    1157    |   2.31e-5  |     2.31e4     |
+|----------|-------|------------|------------|------------|----------------|
+|          | Row   | 8160x6120  |   4.18e9   |    83.7    |     8.37e10    |
+|          |-------|------------|------------|------------|----------------|
+|    90    | Col   | 8160x6120  |   4.22e9   |    84.5    |     8.45e10    |
+|          |-------|------------|------------|------------|----------------|
+|          | Block | 8160x6120  |   4.15e9   |    83.1    |     8.31e10    |
+|----------|-------|------------|------------|------------|----------------|
+|          | Row   | 8160x6120  |   1.65e9   |    33.04   |     3.3e10     |
+|          |-------|------------|------------|------------|----------------|
+|    180   | Col   | 8160x6120  |   1.65e9   |    33.04   |     3.3e10     |
+|          |-------|------------|------------|------------|----------------|
+|          | Block | 8160x6120  |   4.28e9   |    85.70   |     8.57e10    |
+|----------|-------|------------|------------|------------|----------------|
+
+        Computer that was used: MacBook M1 Pro Chip(2021) 14.2-inch with
+        8-core CPU with 6 performance cores and 2 efficiency cores
+        clock rate: 2200 MHz
+Instructor
+| 10/18 at 9:26 pm
+Grading comment:
+D1a
+
+
+        We notice that the time it took was around the same between row major
+        and column major within each rotation, but block major was a 
+        significant degree slower for 180 while maintaining the same time as
+        the rotations due to the abstraction that its implementation contains
+        since to access elements in the blocked 2D array, one needs to first 
+        access a 1D array and then the element, whereas in a non-blocked array,
+        one can access the element directly. 
+
+        We suspect that 90 degree rotations for row and col major are very 
+        close in time because in row major access, we are accessing elements 
+        in a row that have spatial locality, but in writing we are accessing
+        elements in a column that do not have locality, for col major, the 
+        inverse is true that accessing elements in the original has no spatial
+        locality, but writing to the rows of the result file does have spatial
+        locality. 
+
+        Also, as expected, "rotating" by 0 degrees was the fastest and roughly
+        the same time for each major, as no rotation function was actually 
+        applied, we just output the original image. However, for col and row
+        major mapping, 180 degree rotation was significantly faster than 90 
+        degree rotation. We think this is because when writing to the array
+        that stores the result of the rotation, we are constantly accessing
+        elements near each other in the same line, so due to spatial caching,
+        that should be faster than what happens in the 90 degree rotation
+        where we constantly access different lines in the result array. There
+        is no difference between 180 and 90 degree rotations for block major, 
+        because accessing elements in blocks takes the same amount of 
+        time because the blocks are squares. Thus, there is no difference in 
+        the spatial caching between 90 and 180 for block major.
+
+Time spent
+
+   We spent around 40 hours on this project.

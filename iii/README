@@ -1,0 +1,28 @@
+/**********************************************************
+* Homework 2: iii
+* CS 40
+* README
+* Matthew Carey (mcarey04), Kaelen Song (ksong05)
+*********************************************************/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//* * Acknowledgements: * *\\
+
+Professor's lectures on...
+    ...bits
+TA office hours
+Hansen textbook:
+    ...on stacks
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//* * What has been correctly implemented and what has not * *\\
+
+To the best of our knowledge we believe everything has been implemented
+correctly. This includes:
+    UArray2
+    Bit2
+    sudoku
+    unblackedges
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//* * Hours Spent: * *\\
+20 hours
+
+

@@ -1,0 +1,16 @@
+
+
+include com.tasm
+include neg.tasm
+include writechar.tasm
+
+#--------------------------------------------------------------------
+#                            main
+#--------------------------------------------------------------------
+
+temp r7
+loadval r3,50                  #put 2 in register 3
+neg r3,r3
+neg r3,r3
+writechar r3                   # Output the result of the neg
+halt

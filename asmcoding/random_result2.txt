@@ -1,0 +1,35 @@
+Division by zero
+Division by zero
+Division by zero
+Division by zero
+Division by zero
+Division by zero
+Division by zero
+Division by zero
+Division by zero
+Division by zero
+Division by zero
+Division by zero
+>>> 610
+>>> 610
+>>> 610
+>>> 1576
+>>> 788
+>>> 788
+>>> -131681253
+>>> 682
+>>> 682
+>>> 682
+>>> 0
+>>> 1858
+>>> 0
+>>> 0
+>>> 0
+>>> 1130
+>>> -133225
+>>> -256
+>>> -325
+>>> 958
+>>> 958
+>>> 958
+>>> 958
